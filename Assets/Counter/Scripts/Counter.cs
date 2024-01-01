@@ -6,18 +6,16 @@ using UnityEngine.UI;
 
 public class Counter : MonoBehaviour
 {
-    public Text CounterText;
-
-    private int Count = 0;
-
-    private void Start()
-    {
-        Count = 0;
-    }
+    [SerializeField] private Text CounterText;
+    [SerializeField] private int Count = 3;
 
     private void OnTriggerEnter(Collider other)
     {
-        Count += 1;
+        if (other.gameObject.CompareTag("Sphere"))
+        {
+            Count -= 1;
+        };
         CounterText.text = "Count : " + Count;
+    
     }
 }
