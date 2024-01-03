@@ -6,14 +6,18 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float horizontalConstrains = 1.4f;
     [SerializeField] private float speed = 2f;
-    private Counter Counter;
+    private Counter counter;
+    private GameManager gameManager;
    
     private void Start()
     {
-        Counter = GameObject.Find("Bottom").GetComponent<Counter>();
+        counter = GameObject.Find("Bottom").GetComponent<Counter>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Update()
     {
+        if (!gameManager.isGameRunning) return;
+
         if (transform.position.x < -horizontalConstrains)
         {
             transform.position = new Vector3(-horizontalConstrains, transform.position.y, transform.position.z);
@@ -25,7 +29,6 @@ public class PlayerController : MonoBehaviour
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
-        //transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
         Vector3 movement = new Vector3 (horizontalInput, 0, 0) * speed * Time.deltaTime;
         transform.position += movement;
     }
@@ -38,10 +41,10 @@ public class PlayerController : MonoBehaviour
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
             float randomDirection = Random.Range(-1, 1);
             rb.AddForce(new Vector3(randomDirection, 1, 0) * 10f, ForceMode.Impulse);
-            if (Counter != null)
+            if (counter != null)
             {
-                Counter.Count +=1;
-                Counter.CounterText.text = "Count : " + 1;
+                counter.Count +=1;
+                counter.CounterText.text = "Count : " + 1;
             }
         }
     }
