@@ -6,12 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float horizontalConstrains = 1.4f;
     [SerializeField] private float speed = 2f;
-    private Counter counter;
     private GameManager gameManager;
    
     private void Start()
     {
-        counter = GameObject.Find("Bottom").GetComponent<Counter>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Update()
@@ -41,11 +39,6 @@ public class PlayerController : MonoBehaviour
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
             float randomDirection = Random.Range(-1, 1);
             rb.AddForce(new Vector3(randomDirection, 1, 0) * 10f, ForceMode.Impulse);
-            if (counter != null)
-            {
-                counter.Count +=1;
-                counter.CounterText.text = "Count : " + 1;
-            }
         }
     }
 }
